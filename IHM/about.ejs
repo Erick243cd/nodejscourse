@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apropos</title>
+</head>
+<body>
+    <div style="width: 50%; margin: auto;">
+        <%- include('./components/header') %> 
+
+        <section>
+            <h2>About</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi autem doloremque exercitationem numquam perferendis enim, itaque iure nam unde dolor rerum deserunt dolorum aliquam vitae necessitatibus alias impedit voluptatem maxime?</p>
+        </section>
+        <p><hr></p>
+        <section>
+            <h2>Test, liste d'étudiants</h2>
+            <ul>
+                <% for(i=0; i < students.length; i++){%>
+                    <li>
+                        <%= 'Noms: ' + students[i].nom + ' ' + students[i].postNom + ' Age : ' + students[i].age %>
+                    </li>
+                    <%}%>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

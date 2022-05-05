@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil | Moteur de visualisation</title>
+</head>
+
+<body>
+
+    <div style="width: 50%; margin: auto;">
+
+        <%- include('./components/header') %>
+
+            <section>
+                <form action="">
+                    <label for="title">Titre</label><br>
+                    <input type="text" id="title" name="title"><br>
+                    <br>
+                    <label for="description">Description</label><br>
+                    <textarea name="description" id="description" cols="30" rows="10"></textarea> <br>
+
+                    <input type="submit" value="Send">
+
+                </form>
+            </section>
+            <p>
+                <hr>
+            </p>
+
+            <section>
+                <h2>Liste de note</h2>
+                <ul>
+                    <% for(i=0; i < result.length; i++ ){%>
+                        <h3>
+                            <%= result[i].title %>
+                        </h3>
+                        <p>
+                            <%= result[i].description %>
+                        </p>
+
+                        <%}%>
+                </ul>
+            </section>
+    </div>
+</body>
+
+</html>
