@@ -1,88 +1,22 @@
 const express = require('express');
 
-const myConnection = require('express-myconnection');
-const req = require('express/lib/request');
-const res = require('express/lib/response');
-const mysql = require('mysql');// 
+const notesRoutes =  require('./routes/notesRoutes');
+
 
 const app = express();
 
 //Extration de données du formulaire
 app.use(express.urlencoded({ extended: false })); //Middleware urlencode
 
-
-// const dbConfig = [
-//     {
-//         host: "localhost",
-//         user: "erick",
-//         password: "erick",
-//         port:3306,
-//         database: "nodejs_note_db"
-//     }
-// ];
-
-const connection = mysql.createConnection({
-    host: "localhost",
-    user: "erick",
-    password: "erick",
-    port: 3306,
-    database: "nodejs_note_db"
-});
-
-
-//Definition de la base de données
-// app.use(myConnection(mysql, dbConfig, 'pool'));
-//Définir le moteur de template EJS
 //set the view engine to ejs
 app.set('view engine', 'ejs');
 // Definir le dossier dans lequel se trouve les vues.
-app.set('views', 'ihm')
-//Chargement des fichiers, l'extension doit des fichiers être .ejs
-app.get('/', (req, res) => {
-    connection.query("SELECT * FROM notes", [], (error, result) => {
-        if (error) {
-            console.log(error);
-        } else {
-            res.status(200).render('index', { result })
-        }
-    })
-});
+app.set('views', 'ihm');
 
-// app.get('/', (req, res) => {
-//     connection.connect((error) => {
-//         if (error) {
-//             console.log(error);
-//         } else {
-//             connection.query("SELECT * FROM notes", [], (error, result) => {
-//                 if (error) {
-//                     console.log(error);
-//                 } else {
-//                     res.status(200).render('index', { result })
-//                 }
-//             })
-//             connection.end();
-//         }
-//     });
+//Definition de routes pour les note
+app.use(notesRoutes);
 
-// });
-
-//Insertion de données du formulaire dans la DB
-app.post("/notes", (req, res)=>{
-    let titre = req.body.title
-    let description = req.body.description
-
-    connection.query("INSERT INTO notes(title, description) VALUES (?,?)", [titre, description], (error, result) => {
-        if (error) {
-            console.log(error);
-        } else {
-            res.status(300).redirect('/');
-        }
-    })
-})
-
-
-
-
+//Autres pages
 const students = [
     {
         nom: "Erick",
