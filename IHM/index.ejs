@@ -16,6 +16,7 @@
 
             <section>
                 <form action="/notes" method="post">
+                    <input type="hidden" id="id" name="id">
                     <label for="title">Titre</label><br>
                     <input type="text" id="title" name="title"><br>
                     <br>
@@ -31,7 +32,7 @@
             </p>
 
             <section>
-                <h2>Liste de note</h2>
+                <h2>Liste de notes</h2>
                 <ul>
                     <% for(i=0; i < result.length; i++ ){%>
                         <h3>
@@ -40,11 +41,32 @@
                         <p>
                             <%= result[i].description %>
                         </p>
+                        <input type="button" value="Supprimer" onclick="deleteNote('<%= result[i].id %>')">
+                        <input type="button" value="Modifier"
+                            onclick="remplirDonnee('<%= result[i].id %>','<%= result[i].title %>', '<%= result[i].description %>' )">
 
                         <%}%>
                 </ul>
             </section>
     </div>
 </body>
+<script>
+    function remplirDonnee(id, title, desc) {
+        document.getElementById('id').value = id
+        document.getElementById('title').value = title
+        document.getElementById('description').value = desc
+    }
+
+    function deleteNote(id) {
+        let pointFinal = "notes/" + id
+        fetch(
+            pointFinal, { method: "DELETE" }
+        ).then(
+            (response) => response.json()
+        ).then(
+            (donnee) => window.location.href = donnee.routeRacine
+        ).catch((erreur) => console.log(erreur));
+    }
+</script>
 
 </html>
