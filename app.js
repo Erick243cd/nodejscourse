@@ -1,10 +1,15 @@
 const express = require('express');
 
 const myConnection = require('express-myconnection');
+const req = require('express/lib/request');
 const res = require('express/lib/response');
 const mysql = require('mysql');// 
 
 const app = express();
+
+//Extration de données du formulaire
+app.use(express.urlencoded({ extended: false })); //Middleware urlencode
+
 
 // const dbConfig = [
 //     {
@@ -20,20 +25,20 @@ const connection = mysql.createConnection({
     host: "localhost",
     user: "erick",
     password: "erick",
-    port:3306,
+    port: 3306,
     database: "nodejs_note_db"
 });
-  
+
 
 //Definition de la base de données
-    // app.use(myConnection(mysql, dbConfig, 'pool'));
+// app.use(myConnection(mysql, dbConfig, 'pool'));
 //Définir le moteur de template EJS
 //set the view engine to ejs
 app.set('view engine', 'ejs');
 // Definir le dossier dans lequel se trouve les vues.
 app.set('views', 'ihm')
 //Chargement des fichiers, l'extension doit des fichiers être .ejs
-app.get('/', (req, res)=>{
+app.get('/', (req, res) => {
     connection.query("SELECT * FROM notes", [], (error, result) => {
         if (error) {
             console.log(error);
@@ -60,6 +65,23 @@ app.get('/', (req, res)=>{
 //     });
 
 // });
+
+//Insertion de données du formulaire dans la DB
+app.post("/notes", (req, res)=>{
+    let titre = req.body.title
+    let description = req.body.description
+
+    connection.query("INSERT INTO notes(title, description) VALUES (?,?)", [titre, description], (error, result) => {
+        if (error) {
+            console.log(error);
+        } else {
+            res.status(300).redirect('/');
+        }
+    })
+})
+
+
+
 
 const students = [
     {
